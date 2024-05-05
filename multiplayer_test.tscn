@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://caynmlv3eqfow"]
+
+[ext_resource type="Script" path="res://multiplayer_test.gd" id="1_6vmp5"]
+[ext_resource type="PackedScene" uid="uid://ctkwtrrowy0s0" path="res://basic_player.tscn" id="2_5bl2e"]
+[ext_resource type="PackedScene" uid="uid://bcq7hsh315jeo" path="res://bot.tscn" id="3_c7wiu"]
+
+[sub_resource type="Theme" id="Theme_tekvo"]
+
+[sub_resource type="Theme" id="Theme_4w6jp"]
+
+[node name="MultiplayerTest" type="Node2D"]
+script = ExtResource("1_6vmp5")
+player_scene = ExtResource("2_5bl2e")
+bot_scene = ExtResource("3_c7wiu")
+
+[node name="Host" type="Button" parent="."]
+offset_left = 2.0
+offset_top = 142.0
+offset_right = 117.0
+offset_bottom = 217.0
+theme = SubResource("Theme_tekvo")
+theme_override_font_sizes/font_size = 48
+text = "Host"
+
+[node name="Join" type="Button" parent="."]
+offset_left = 11.0
+offset_top = 350.0
+offset_right = 105.0
+offset_bottom = 425.0
+theme = SubResource("Theme_4w6jp")
+theme_override_font_sizes/font_size = 48
+text = "Join"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://bot.tscn", "res://basic_player.tscn")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Join" to="." method="_on_join_pressed"]

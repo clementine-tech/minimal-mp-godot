@@ -1,0 +1,15 @@
+[configuration]
+entry_symbol = "gdext_rust_init"
+compatibility_minimum = 4.2
+
+[libraries]
+linux.debug.x86_64 =     "res://addons/dummy-rust/target/debug/libdummy.so"
+linux.release.x86_64 =   "res://addons/dummy-rust/target/release/libdummy.so"
+windows.debug.x86_64 =   "res://addons/dummy-rust/target/debug/dummy.dll"
+windows.release.x86_64 = "res://addons/dummy-rust/target/release/dummy.dll"
+macos.debug =            "res://addons/dummy-rust/target/debug/libdummy.dylib"
+macos.release =          "res://addons/dummy-rust/target/release/libdummy.dylib"
+macos.debug.arm64 =      "res://addons/dummy-rust/target/debug/libdummy.dylib"
+macos.release.arm64 =    "res://addons/dummy-rust/target/release/libdummy.dylib"
+web.debug.wasm32 =       "res://addons/dummy-rust/target/wasm32-unknown-emscripten/debug/dummy.wasm"
+web.release.wasm32 =     "res://addons/dummy-rust/target/wasm32-unknown-emscripten/release/dummy.wasm"
