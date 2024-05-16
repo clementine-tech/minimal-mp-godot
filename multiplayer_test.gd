@@ -3,7 +3,26 @@ extends Node2D
 var peer = WebSocketMultiplayerPeer.new()
 @export var player_scene: PackedScene
 @export var bot_scene: PackedScene
- 
+
+signal game_error(what)
+
+
+func _ready():
+	RivetHelper.start_server.connect(start_server)
+	RivetHelper.setup_multiplayer()
+
+func start_server():
+	peer.create_server(8080)
+	multiplayer.set_multiplayer_peer(peer)
+	var response = await Rivet.matchmaker.lobbies.ready({})
+	if response.result == OK:
+		RivetHelper.rivet_print("Lobby ready")
+	else:
+		RivetHelper.rivet_print("Lobby ready failed")
+		OS.crash("Lobby ready failed")
+	# add bot
+	_add_bot()
+	multiplayer.peer_connected.connect(_add_player)
  
 func _on_host_pressed():
 	var err = peer.create_server(8080)
@@ -26,20 +45,31 @@ func _add_bot(id = 1):
 	print('adding bot')
 	var bot = bot_scene.instantiate()
 	call_deferred("add_child", bot, true)
- 
+
+
+func join_game(new_player_name):
+	print("Joining game as %s" % new_player_name)
+	var player_name = new_player_name
+
+	var response = await Rivet.matchmaker.lobbies.find({
+		"game_modes": ["default"]
+	})
+
+	if response.result == OK:
+		RivetHelper.set_player_token(response.body.player.token)
+
+		var port = response.body.ports.default
+		print("Connecting to ", port.host)
+		print(response.body)
+		var prepend = 'ws://'
+		if port.is_tls:
+			prepend = 'wss://'
+		var error = peer.create_client(prepend + port.host)
+		RivetHelper._assert(!error, "Could not start server")
+		multiplayer.set_multiplayer_peer(peer)
+	else:
+		print("Lobby find failed: ", response)
+		game_error.emit(response.body)
  
 func _on_join_pressed():
-	var socket_url: String
-	if OS.has_feature('web'):
-		# we are in a browser now check if in discord 
-		var location: String = JavaScriptBridge.eval("window.location.host;")
-		if location.contains("discord"):
-			socket_url = "wss://" + location + "/ws"
-		else:
-			socket_url = "wss://shepherd-eastern-novelty-catalogue.trycloudflare.com"
-	else:
-		socket_url = "ws://" + "localhost" + ":" + str(8080)
-	#var socket_url = "wss://ja-differ-papers-ver.trycloudflare.com"
-	var err = peer.create_client(socket_url)
-	print(err)
-	multiplayer.multiplayer_peer = peer
+	join_game('guest')

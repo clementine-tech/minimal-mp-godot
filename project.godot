@@ -15,6 +15,16 @@ run/main_scene="res://multiplayer_test.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+RivetClient="*res://addons/rivet/rivet_client.gd"
+RivetHelper="*res://addons/rivet/rivet_helper.gd"
+Rivet="*res://addons/rivet/rivet_global.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gd-plug-ui/plugin.cfg", "res://addons/rivet/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
