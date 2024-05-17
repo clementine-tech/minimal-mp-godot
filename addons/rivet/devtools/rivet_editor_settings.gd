@@ -1,10 +1,10 @@
 const RIVET_CLI_PATH_SETTING = {
-    "name": "rivet/cli_executable_path",
-    "type": TYPE_STRING,
+	"name": "rivet/cli_executable_path",
+	"type": TYPE_STRING,
 }
 const RIVET_DEBUG_SETTING ={
-    "name": "rivet/debug",
-    "type": TYPE_BOOL,
+	"name": "rivet/debug",
+	"type": TYPE_BOOL,
 }
 
 ## Returns the path to the Rivet CLI executable stored in the editor settings.

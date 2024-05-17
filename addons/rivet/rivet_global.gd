@@ -25,12 +25,12 @@ var cli
 
 ## @experimental
 func POST(path: String, body: Dictionary) -> _api.RivetRequest:
-	return _api.POST(self, path, body)
+    return _api.POST(self, path, body)
 
 ## @experimental
 func GET(path: String, body: Dictionary = {}) -> _api.RivetRequest:
-	return _api.GET(self, path, body)
+    return _api.GET(self, path, body)
 
 ## @experimental
 func PUT(path: String, body: Dictionary = {}) -> _api.RivetRequest:
-	return _api.PUT(self, path, body)
+    return _api.PUT(self, path, body)
